@@ -13,7 +13,7 @@ extension HTML    = ".html"
 extension WordDoc = ".doc"
 extension PDF     = ".pdf"
 
-rawFiles = ["minutes.md","hardwareRec.md"]
+rawFiles = ["hardwareRec.md"]
 
 cmd f fmt = "pandoc " ++ f ++ " --css=style.css -V mainfont='Dosis ExtraLight' -V monofont='Dosis ExtraLight' -V sansfont='Dosis ExtraLight' -V geometry:margin=1in --latex-engine=xelatex -H preamble.txt -o "
             ++ stripExt f ++ extension fmt
