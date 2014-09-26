@@ -1,3 +1,5 @@
+-- Need texlive-latexextra
+
 module Main where
 
 import Control.Monad
@@ -13,7 +15,7 @@ extension PDF     = ".pdf"
 
 rawFiles = ["minutes.md","hardwareRec.md"]
 
-cmd f fmt = "pandoc " ++ f ++ " --css=style.css --variable fontsize=100pt --latex-engine=xelatex -o "
+cmd f fmt = "pandoc " ++ f ++ " --css=style.css -V mainfont='Dosis ExtraLight' -V monofont='Dosis ExtraLight' -V sansfont='Dosis ExtraLight' -V geometry:margin=1in --latex-engine=xelatex -H preamble.txt -o "
             ++ stripExt f ++ extension fmt
 
 main = do
