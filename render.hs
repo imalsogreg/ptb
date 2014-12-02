@@ -1,9 +1,11 @@
--- Need texlive-latexextra
+#! /bin/runghc
 
 module Main where
 
 import Control.Monad
+import System.Directory
 import System.Environment
+import System.FilePath
 import System.Process
 
 data Fmt = HTML | WordDoc | PDF
@@ -13,15 +15,22 @@ extension HTML    = ".html"
 extension WordDoc = ".doc"
 extension PDF     = ".pdf"
 
-rawFiles = ["hardwareRec.md","minutes.md"]
+rawFileDir   = "reports"
+buildFileDir = "build"
 
-cmd f fmt =
-  "pandoc -o " ++ f' ++
-  " --latex-engine=xelatex -H preamble.tex " ++ f
+cmd f fmt  =
+  "pandoc -o " ++ (buildFileDir </> f') ++
+  " --latex-engine=xelatex -H preamble.tex " ++
+  (rawFileDir </> f)
   where f' = stripExt f ++ extension fmt
 
+fnExtension :: FilePath -> String
+fnExtension = reverse . takeWhile (/= '.') . reverse
+------------------------------------------------------------------------------
 main = do
   args <- getArgs
+  rawFiles <- filter ((=="md").fnExtension) `fmap`
+              getDirectoryContents rawFileDir
   let fmt = case args of
         []  -> PDF
         [f] -> read f
